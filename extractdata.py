@@ -37,3 +37,10 @@ print("Le nombre d'articles pas publie par Damien est:", arxiv.papers.count_docu
 # afficher le nombre de papiers téléversés en 2014. On pourra s'appuyer sur une expréssion régulière.
 print("Le nombre des papiers televersé en 2004 est:", arxiv.papers.count_documents({'update_date':{'$regex':'^2014'}}))
 
+#afficher le titre d'un article qui contient l'expression Machine Learning. On pourra utiliser une expression régulière.
+print("Titrearticle qui contient Machine Learning:", arxiv.papers.find_one({"title" : {'$regex':'Machine Learning'}},{"title":1, "_id":0}))
+
+#afficher le nombre de publications par submitter pour les 10 personnes les plus prolifiques. 
+# On pourra utiliser un pipeline d'aggrégation avec les mots-clefs $group, $sort, $limit.
+for v in list(arxiv.papers.aggregate([{"$group" :{"submitter":"$submitter", "np":{"$sum" : 1 }}}])):
+    print(v)
