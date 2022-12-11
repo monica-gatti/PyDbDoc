@@ -30,11 +30,10 @@ print("\n*********Autheurs \n")
 #afficher les 10 premiers auteurs par ordre alphabétique
 for a in list( arxiv.papers.find({},{"authors":1, "_id":0}).sort("authors", 1).limit(10)):
     print(a)
-print("Damien Chablat")
+
 # afficher le nombre d'articles qui n'ont pas été publiés par "Damien Chablat"
+print("Le nombre d'articles pas publie par Damien est:", arxiv.papers.count_documents({'submitter':{'$ne':'Damien Chablat'}}))
 
-for r in list(arxiv.papers.find({'authors':{'$regex':'%Damien'}})):
-    print(r)
+# afficher le nombre de papiers téléversés en 2014. On pourra s'appuyer sur une expréssion régulière.
+print("Le nombre des papiers televersé en 2004 est:", arxiv.papers.count_documents({'update_date':{'$regex':'^2014'}}))
 
-# for r in list( arxiv.papers.find( {"authors": {'$regex': '%Damien%', "$options" :'i' } })):
-#     print(r)
