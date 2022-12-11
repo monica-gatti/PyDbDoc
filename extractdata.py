@@ -42,5 +42,6 @@ print("Titrearticle qui contient Machine Learning:", arxiv.papers.find_one({"tit
 
 #afficher le nombre de publications par submitter pour les 10 personnes les plus prolifiques. 
 # On pourra utiliser un pipeline d'aggrégation avec les mots-clefs $group, $sort, $limit.
-for v in list(arxiv.papers.aggregate([{"$group" :{"submitter":"$submitter", "np":{"$sum" : 1 }}}])):
+print("\n nombre de publications par submitter pour les 10 personnes les plus prolifiques")
+for v in list(arxiv.papers.aggregate([{"$group" :{"_id":"$submitter", "np":{"$sum" : 1 }}}, {"$sort" : {"np":-1}}, {"$limit" : 10}])):
     print(v)
